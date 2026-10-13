@@ -1,0 +1,74 @@
+name: Build and Deploy to Remote VPS via SSH
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: app
+
+jobs:
+  build-image:
+    name: Build & Push Docker Image
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Log in to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and Push Docker Image
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:latest
+            ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+  deploy-vps:
+    name: Deploy to VPS via SSH
+    runs-on: ubuntu-latest
+    needs: build-image
+
+    steps:
+      - name: Thực thi câu lệnh triển khai trên VPS qua SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            echo "=========================================="
+            echo "1. Đăng nhập vào GitHub Container Registry..."
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            echo "2. Kéo Image mới nhất: docker pull ghcr.io/${{ github.repository_owner }}/app:latest..."
+            docker pull ghcr.io/${{ github.repository_owner }}/app:latest
+
+            echo "3. Khởi chạy lại container: dừng và xóa container cũ..."
+            docker stop app || true
+            docker rm app || true
+
+            echo "4. Khởi chạy container mới trên cổng 8080:8080..."
+            docker run -d --name app -p 8080:8080 ghcr.io/${{ github.repository_owner }}/app:latest
+
+            echo "5. Kiểm tra trạng thái container đang chạy..."
+            docker ps --filter "name=app"
+            echo "Triển khai lên VPS thành công!"
+            echo "=========================================="

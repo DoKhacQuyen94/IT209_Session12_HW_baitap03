@@ -21,3 +21,18 @@ Dự án minh họa quy trình CD đa môi trường sử dụng **GitHub Action
 
 ## 4. Minh chứng phê duyệt Production (Waiting for review)
 ![Cửa sổ phê duyệt deployment môi trường Production](./homework/session_12/ex3/approval_screenshot.png)
+
+---
+
+# IT209 - Session 12: Bài tập 04 - Tự động triển khai lên VPS từ xa qua SSH
+
+## 1. Thông tin bài làm
+- **Bài tập**: Bài 4 - Tự động triển khai ứng dụng Spring Boot (Container) lên VPS từ xa qua SSH
+- **Thư mục bài tập**: `homework/session_12/ex4/`
+- **Tệp kịch bản workflow**: `.github/workflows/deploy-vps.yml`
+- **Action sử dụng**: `appleboy/ssh-action@v1.0.3`
+
+## 2. Các Secrets yêu cầu
+- `SSH_HOST`: IP hoặc hostname máy chủ VPS
+- `SSH_USER`: Tên người dùng SSH
+- `SSH_KEY`: SSH Private Key
