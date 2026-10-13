@@ -130,3 +130,11 @@ jobs:
    - Runner lập tức được cấp phát và thực thi Job `deploy-prod`.
    - Toàn bộ Job hoàn tất với trạng thái tích xanh (**Success**).
    - URL triển khai hiển thị liên kết trực tiếp tới `https://api.prod.example.com`.
+
+---
+
+## 6. Minh chứng phê duyệt deployment (Approval Screenshot)
+
+Dưới đây là ảnh chụp màn hình cửa sổ phê duyệt deployment môi trường Production (**Review pending deployments**) trên GitHub Actions theo yêu cầu nộp bài:
+
+![Cửa sổ phê duyệt deployment môi trường Production](./approval_screenshot.png)

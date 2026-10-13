@@ -18,3 +18,6 @@ Dự án minh họa quy trình CD đa môi trường sử dụng **GitHub Action
 | :--- | :---: | :---: | :--- |
 | **staging** | `develop` | `https://api.staging.example.com` | Không có (Deploy tự động) |
 | **production** | `main` | `https://api.prod.example.com` | **Required reviewers**: `@DoKhacQuyen94` |
+
+## 4. Minh chứng phê duyệt Production (Waiting for review)
+![Cửa sổ phê duyệt deployment môi trường Production](./homework/session_12/ex3/approval_screenshot.png)
