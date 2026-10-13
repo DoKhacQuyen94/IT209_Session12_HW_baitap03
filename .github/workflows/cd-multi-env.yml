@@ -21,15 +21,7 @@ jobs:
 
       - name: Deploy to Staging Environment
         run: |
-          echo "=========================================="
           echo "Deploying application to STAGING environment..."
-          echo "Target Environment: staging"
-          echo "Target URL: https://api.staging.example.com"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Commit SHA: ${{ github.sha }}"
-          echo "Deployed By: ${{ github.actor }}"
-          echo "Status: SUCCESS"
-          echo "=========================================="
 
   deploy-prod:
     name: Deploy to Production
@@ -44,12 +36,4 @@ jobs:
 
       - name: Deploy to Production Environment
         run: |
-          echo "=========================================="
           echo "Deploying application to PRODUCTION environment..."
-          echo "Target Environment: production"
-          echo "Target URL: https://api.prod.example.com"
-          echo "Branch: ${{ github.ref_name }}"
-          echo "Commit SHA: ${{ github.sha }}"
-          echo "Approved and Triggered By: ${{ github.actor }}"
-          echo "Status: PRODUCTION DEPLOYMENT SUCCESSFUL"
-          echo "=========================================="
